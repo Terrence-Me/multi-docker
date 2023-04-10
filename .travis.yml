@@ -1,0 +1,17 @@
+sudo: required
+language: generic
+
+services:
+  - docker
+
+before_install:
+  - docker build -t terrencemeik/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true terrencemeik/react-test npm test
+
+after_success:
+  - docker build -t terrencemeik/multi-client ./client
+  - docker build -t terrencemeik/multi-nginx ./nginx
+  - docker build -t terrencemeik/multi-server ./server
+  - docker build -t terrencemeik/multi-worker ./worker
