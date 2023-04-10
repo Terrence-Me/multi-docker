@@ -15,3 +15,10 @@ after_success:
   - docker build -t terrencemeik/multi-nginx ./nginx
   - docker build -t terrencemeik/multi-server ./server
   - docker build -t terrencemeik/multi-worker ./worker
+  # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push terrencemeik/multi-client
+  - docker push terrencemeik/multi-nginx
+  - docker push terrencemeik/multi-server
+  - docker push terrencemeik/multi-worker
